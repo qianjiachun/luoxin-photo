@@ -1,5 +1,5 @@
 import { Vue, Component } from 'vue-property-decorator';
-import { DatetimePicker, NavBar, Popup, List, Divider, Tag } from 'vant'
+import { DatetimePicker, NavBar, Popup, List, Divider, Tag, Grid, GridItem } from 'vant'
 import PhotoWall from '../components/PhotoWall.vue'
 import PhotoPreview from '../components/PhotoPreview.vue'
 import { getPhotoRand, getPhoto } from '../apis/photoGet'
@@ -7,6 +7,7 @@ import { ImgData, Img } from '../interfaces'
 import { timestampToTime } from '../common/timeFormat'
 import styles from '../styles/photo.module.less'
 import '../styles/photo.less'
+
 // 这里引入组件，然后在@Component components:{}里写上组件名称即可在render里使用
 // import ComponentA from '@/component/ComponentA'
 
@@ -18,8 +19,11 @@ import '../styles/photo.less'
         [List.name]: List,
         [Divider.name]: Divider,
         [Tag.name]: Tag,
+        [Grid.name]: Grid,
+        [GridItem.name]: GridItem,
         PhotoWall,
         PhotoPreview,
+
         
     }
     
@@ -45,6 +49,9 @@ export default class MainPage extends Vue {
     private img_preview_url: string = "";
     private img_preview_time: string = "";
 
+    private column_num: number = 3;
+
+
     // -------------变量声明区尾-------------
 
     // -------------html首-------------
@@ -56,7 +63,9 @@ export default class MainPage extends Vue {
                     title="拆城图库"
                     right-text="设置时间"
                     onClick-right={this.onClickRight}
-                />
+                >
+                    <img src="../resource/menu.png" slot="left" />
+                </van-nav-bar>
                 <van-popup
                     v-model={this.popShow}
                     position="bottom"
@@ -81,26 +90,29 @@ export default class MainPage extends Vue {
                             Object.keys(this.photoData).map(timeS => {
                                 return (
                                     <div>
-                                        
                                         <div style="margin-left:7px;margin-bottom:7px;"><van-tag mark size="large" color="#f2826a">{timeS}</van-tag></div>
                                         <div>
                                             <div>
+                                            <van-grid border={"false"} column-num={this.column_num}>
                                                 {
                                                     this.photoData[timeS].map((eachImg: Img) => {
                                                         return (
+                                                            <van-grid-item>
                                                             <div
                                                                 onClick={this.watchImg.bind(this, eachImg.img, eachImg.url, eachImg.type, eachImg.time)}
-                                                                style="position:relative;width:170px;height:150px;display:inline-block;margin:0px 7px;">
+                                                                style="position:relative">
                                                                 <img class={styles.photoList__eachImg} src={eachImg.thumbImg} />
                                                                 <div style={this.isGif(eachImg.img)}>
                                                                     GIF</div>
                                                             </div>
-
+                                                            </van-grid-item>
                                                         )
                                                     })
                                                 }
+                                                </van-grid>
                                             </div>
                                         </div>
+                                        
                                         <van-divider></van-divider>
                                     </div>
                                 )
@@ -219,7 +231,7 @@ export default class MainPage extends Vue {
     }
     private isGif(n: string) {
         if (n.indexOf("gif") != -1) {
-            return "position:absolute;width:180px;height:160px;z-indent:2;left:0;top:80px;line-height:20px;color:gold;font-weight:800";
+            return "position:absolute;width:100%;height:100%;z-indent:2;left:0;top:80%;line-height:20px;color:gold;font-weight:800";
         } else {
             return "display:none;"
         }
