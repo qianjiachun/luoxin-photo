@@ -1,5 +1,5 @@
 import { Vue, Component } from 'vue-property-decorator';
-import { DatetimePicker, NavBar, Popup, List, Divider, Tag, Grid, GridItem } from 'vant'
+import { DatetimePicker, NavBar, Popup, List, Divider, Tag, Grid, GridItem, Cell } from 'vant'
 import PhotoWall from '../components/PhotoWall.vue'
 import PhotoPreview from '../components/PhotoPreview.vue'
 import { getPhotoRand, getPhoto } from '../apis/photoGet'
@@ -21,10 +21,10 @@ import '../styles/photo.less'
         [Tag.name]: Tag,
         [Grid.name]: Grid,
         [GridItem.name]: GridItem,
+        [Cell.name]: Cell,
         PhotoWall,
         PhotoPreview,
 
-        
     }
     
 })
@@ -32,6 +32,7 @@ export default class MainPage extends Vue {
     // -------------变量声明区首-------------
     private currentDate: Date = new Date();
     private popShow: boolean = false;
+    private linkerShow: boolean = false;
     private timeAnchor: number = 0;
     private loading: boolean = false;
     private finished: boolean = false;
@@ -63,9 +64,16 @@ export default class MainPage extends Vue {
                     title="拆城图库"
                     right-text="设置时间"
                     onClick-right={this.onClickRight}
+                    onClick-left={this.onClickLeft}
                 >
-                    <img src="../resource/menu.png" slot="left" />
+                    <img style="vertical-align: middle;" src={require("../resource/menu.png")} slot="left" />
                 </van-nav-bar>
+                <van-popup position="left" v-model={this.linkerShow} style="width:60%;height:100%;background-color:white;">
+                    <div style="margin-top:46px">
+                    <van-cell title="拆城弹幕仓库" is-link url="http://douyu.55kai.top" />
+                    <van-cell title="拆城人口调查" is-link url="http://gift.55kai.top" />
+                    </div>
+                </van-popup>
                 <van-popup
                     v-model={this.popShow}
                     position="bottom"
@@ -153,7 +161,9 @@ export default class MainPage extends Vue {
     private onClickRight() {
         this.popShow = true;
         this.timeAnchor = Math.floor(Number(new Date()) / 1000);
-
+    }
+    private onClickLeft() {
+        this.linkerShow = true;
     }
     private onClickDateConfirm() {
         this.popShow = false;
