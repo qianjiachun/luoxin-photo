@@ -10,6 +10,5 @@ export interface Img {
 }
 
 export interface PhotoData {
-    time: Img[]
-    
+    [timeS: string]: Img[]
 }

@@ -3,7 +3,7 @@ import { DatetimePicker, NavBar, Popup, List, Divider, Tag, Grid, GridItem, Cell
 import PhotoWall from '../components/PhotoWall.vue'
 import PhotoPreview from '../components/PhotoPreview.vue'
 import { getPhotoRand, getPhoto } from '../apis/photoGet'
-import { ImgData, Img } from '../interfaces'
+import { ImgData, Img, PhotoData } from '../interfaces'
 import { timestampToTime } from '../common/timeFormat'
 import styles from '../styles/photo.module.less'
 import '../styles/photo.less'
@@ -40,13 +40,14 @@ export default class MainPage extends Vue {
     private photoWallData: any = {
         data: [{ thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" },]
     };
+    
 
-    private photoData: any = {
-    }
+    private photoData: PhotoData = {}
+
     private currentPage: number = 0;
 
     private img_preview_show: boolean = false;
-    private img_preview_imgs: any[] = [];
+    private img_preview_imgs: string[] = [];
     private img_preview_url: string = "";
     private img_preview_time: string = "";
 
