@@ -26,7 +26,7 @@ import '../styles/photo.less'
         PhotoPreview,
 
     }
-    
+
 })
 export default class MainPage extends Vue {
     // -------------变量声明区首-------------
@@ -40,7 +40,7 @@ export default class MainPage extends Vue {
     private photoWallData: any = {
         data: [{ thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" }, { thumbImg: "" },]
     };
-    
+
 
     private photoData: PhotoData = {}
 
@@ -54,10 +54,13 @@ export default class MainPage extends Vue {
     private column_num: number = 3;
 
 
+    
     // -------------变量声明区尾-------------
 
-    // -------------html首-------------
+    
 
+    // -------------html首-------------
+   
     public render() {
         return (
             <div>
@@ -71,8 +74,8 @@ export default class MainPage extends Vue {
                 </van-nav-bar>
                 <van-popup position="left" v-model={this.linkerShow} style="width:60%;height:100%;background-color:white;">
                     <div style="margin-top:46px">
-                    <van-cell title="拆城弹幕仓库" is-link url="http://douyu.55kai.top" />
-                    <van-cell title="拆城人口调查" is-link url="http://gift.55kai.top" />
+                        <van-cell title="拆城弹幕仓库" is-link url="http://douyu.55kai.top" />
+                        <van-cell title="拆城人口调查" is-link url="http://gift.55kai.top" />
                     </div>
                 </van-popup>
                 <van-popup
@@ -102,26 +105,25 @@ export default class MainPage extends Vue {
                                         <div style="margin-left:7px;margin-bottom:7px;"><van-tag mark size="large" color="#f2826a">{timeS}</van-tag></div>
                                         <div>
                                             <div>
-                                            <van-grid border={"false"} column-num={this.column_num}>
-                                                {
-                                                    this.photoData[timeS].map((eachImg: Img) => {
-                                                        return (
-                                                            <van-grid-item>
-                                                            <div
-                                                                onClick={this.watchImg.bind(this, eachImg.img, eachImg.url, eachImg.type, eachImg.time)}
-                                                                style="position:relative">
-                                                                <img class={styles.photoList__eachImg} src={eachImg.thumbImg} />
-                                                                <div style={this.isGif(eachImg.img)}>
-                                                                    GIF</div>
-                                                            </div>
-                                                            </van-grid-item>
-                                                        )
-                                                    })
-                                                }
+                                                <van-grid border={"false"} column-num={this.column_num}>
+                                                    {
+                                                        this.photoData[timeS].map((eachImg: Img) => {
+                                                            return (
+                                                                <van-grid-item>
+                                                                    <div
+                                                                        onClick={this.watchImg.bind(this, eachImg.img, eachImg.url, eachImg.type, eachImg.time)}
+                                                                        style="position:relative">
+                                                                        <img class={styles.photoList__eachImg} src={eachImg.thumbImg} />
+                                                                        {this.renderGif(eachImg.img)}
+                                                                    </div>
+                                                                </van-grid-item>
+                                                            )
+                                                        })
+                                                    }
                                                 </van-grid>
                                             </div>
                                         </div>
-                                        
+
                                         <van-divider></van-divider>
                                     </div>
                                 )
@@ -145,17 +147,18 @@ export default class MainPage extends Vue {
             </div>
         );
     }
-    // -------------html尾-------------
 
-    // -------------data(){}首-------------
-    // 用于多语言变量的赋值
-    public data() {
-        return {
-            // lang: this.l('locales_demo'),
+    private renderGif(n: string) {
+        if (n.indexOf("gif") != -1) {
+            return <div style="position:absolute;width:100%;height:100%;z-indent:2;left:0;top:80%;line-height:20px;color:gold;font-weight:800">
+            GIF</div>
+        } else {
+            return
         }
-    }
-    // -------------data(){}尾-------------
+        
 
+    }
+    // -------------html尾-------------
 
     // -------------methods首-------------
     // private myFunc() {}
@@ -239,13 +242,6 @@ export default class MainPage extends Vue {
     }
     private changeShow(n: boolean) {
         this.img_preview_show = n;
-    }
-    private isGif(n: string) {
-        if (n.indexOf("gif") != -1) {
-            return "position:absolute;width:100%;height:100%;z-indent:2;left:0;top:80%;line-height:20px;color:gold;font-weight:800";
-        } else {
-            return "display:none;"
-        }
     }
 
     // -------------methods尾-------------
