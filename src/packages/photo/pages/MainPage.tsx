@@ -229,13 +229,14 @@ export default class MainPage extends Vue {
 
         if (type == "weibo") {
             host = "https://weibo.com/2085966565/"
+        } else if (type =="weibo2") {
+            host = "https://weibo.com/6396947657/"
         } else {
             if (type.indexOf("yuba") != -1) {
                 host = "https://yuba.douyu.com/p/"
             } else {
                 host = ""
             }
-
         }
         this.img_preview_time = timestampToTime(Number(time), true);
         this.img_preview_url = host + url;
